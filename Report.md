@@ -2,7 +2,7 @@
 
 ### Introduction
 
-This is my implementation to solve the Continuous Control project on the Udacity Reinforcement Learning Nanodegree.
+This is my implementation to solve the Continuous Control project on the Udacity Reinforcement Learning Nanodegree. This is the version with a single agent.
 
 In this environment, a double-jointed arm can move to target locations. A reward of +0.1 is provided for each step that the agent's hand is in the goal location. Thus, the goal of your agent is to maintain its position at the target location for as many time steps as possible.
 
@@ -34,22 +34,24 @@ Actor and Critic have 2 hidden layers with 400 and 300 neurons each as suggested
 
 
 ### Learning algorithm
-The agent learns maximising the reward it gets (+1 for each yellow banana, -1 for each blue banana) through iterations of the episodic task until the average score of 13 and above is achieved or a maximum number of episodes has been reached. It is using  epsilon-greedy decay to always keep a degree of exploration, from eps_start down to a bottom limit as defined by the eps_end parameter (see below).
+The agent learns maximising the reward at each episode. Adam is used as an optimizer using the LR specified below.
 
-Adam is used as an optimizer using the LR specified below.
-
-The training creates a **model.pt** when successful that can be used to restore the weights in the neural network at later stage to let the agent interact with the world.
+The training creates an **actor.pth** and a **critic.pth** when successful that can be used to restore the weights in the neural network at later stage to let the agent interact with the world.
 
 ### Hyperparameters
-These are the parameters I used. They are pretty standard and really haven't played around them too much, with the exception of the Larning Rate is one I had to shrink as the agent wasn't learning initially. This smaller value helped.
+These are the parameters I used. The model appears very susceptible to variation of these.
 
 ### Agent
-BUFFER_SIZE = int(1e5)  \
-BATCH_SIZE = 64  
-GAMMA = 0.99 \
-TAU = 1e-3  \
-LR = 0.0001 \
-UPDATE_EVERY = 10  \
+BUFFER_SIZE = int(1e6)  # replay buffer size
+BATCH_SIZE = 128        # minibatch size, i tried multiple values, this worked ok
+GAMMA = 0.99            # discount factor, from https://arxiv.org/pdf/1509.02971.pdf
+TAU = 1e-3              # for soft update of target parameters from https://arxiv.org/pdf/1509.02971.pdf
+LR_ACTOR = 1e-3         # I didn't use the value from the paper, but a value 10 time larger and it worked ok
+LR_CRITIC = 1e-3        # learning rate of the critic from https://arxiv.org/pdf/1509.02971.pdf
+WEIGHT_DECAY = 0        # L2 weight decay from - using 0 rather than value found in the paper as learning was a problem
+UPDATE_EVERY = 20       # timesteps between updates,  from Udacity comments
+NUM_UPDATES = 1       # num of update passes when updating, from Udacity comments
+EPSILON_DECAY = 1e-6    # decay for epsilon above
 
 ### Training
 eps_start=1.0 \
