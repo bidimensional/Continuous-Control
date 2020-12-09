@@ -24,19 +24,13 @@ Environment solved in 455 episodes!	Average Score: 30.12
 ```
 ![graph]
 
-[graph]: https://raw.githubusercontent.com/bidimensional/Banana-Navigator/main/Screenshot_from_2020-12-02_12.01.52.png
+[graph]: https://github.com/bidimensional/Continuous-Control/blob/main/concontrol.png?raw=true
 
 
 ### Model Architecture
-The model architecture for the Dueling DQN I implemented is quite straightforward and it is working well in practice. It is based on the findings of the original research paper at the following address: https://arxiv.org/pdf/1511.06581.pdf
+The model architecture for the DDPG I implemented is based on the findings of the original research paper at the following address: https://arxiv.org/pdf/1509.02971.pdf
 
-The architecture is very simple:
-  - **1 Input Layer**
-    - 37 IN / 64 OUT)
-    
-  - **Action advantage** and **Stage value** 
-    - Layer 1 (ReLU Activated) :  64 IN / 32 OUT
-    - Layer 2:                    32 IN / 1 OUT
+Actor and Critic have 2 hidden layers with 400 and 300 neurons each as suggested by the paper. In line with the same I initialized the weights from a normal distribution and I add noise using the Ornstein-Uhlenbeck process to maintain exploration.
 
 
 ### Learning algorithm
